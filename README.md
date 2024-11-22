@@ -1,9 +1,9 @@
 # SISTEMA DE GESTIÓN DE ENCUESTAS
+Sistema para crear, gestionar y analizar encuestas de manera eficiente.
+
 ## Realizado por:
 + Andrés Felipe Martínez Veloza
 + Leymar Erney Buenaventura Asprilla
-
-Sistema para crear, gestionar y analizar encuestas de manera eficiente.
 
 ## Características
 
