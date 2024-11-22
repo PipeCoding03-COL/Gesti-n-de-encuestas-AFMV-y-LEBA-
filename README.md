@@ -1,7 +1,7 @@
-# Sistema de Gestión de Encuestas
+# SISTEMA DE GESTIÓN DE ENCUESTAS
 ## Realizado por:
-### + Andrés Felipe Martínez Veloza
-### + Leymay Erney Buenaventura Asprilla
++ Andrés Felipe Martínez Veloza
++ Leymar Erney Buenaventura Asprilla
 
 Sistema para crear, gestionar y analizar encuestas de manera eficiente.
 
