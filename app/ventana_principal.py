@@ -7,11 +7,10 @@ from ventana_gestionar_encuestas import VentanaGestionarEncuestas
 class VentanaPrincipal:
     """Ventana principal de la aplicación"""
     
-    def __init__(self, root):
-        self.root = root
+    def __init__(self):
+        super().__init__()
         self.crear_menu()
-        self.crear_widgets()
-        
+        self.crear_widgets() 
     def crear_menu(self):
         """Crea la barra de menú principal"""
         menu_bar = tk.Menu(self.root)
