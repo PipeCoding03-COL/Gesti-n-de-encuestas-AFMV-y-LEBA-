@@ -35,6 +35,8 @@ git clone https://github.com/yourusername/Gestion-de-encuestas-AFMV-y-LEBA-.git
 2. Crear e inicializar el entorno virtual: 
 ```bash
 python3 -m venv venv
+source venv/bin/activate #Linux/MacOS
+venv\scripts\activate #Windows
 ```
 
 3. Instalar librerías:
@@ -42,9 +44,8 @@ python3 -m venv venv
 pip install -r requirements.txt
 ```
 
-## Uso
-
-Ejecutar el programa principal:
-python app/main.py
-
-
+## Ejecución
+```bash
+python app/Main.py #Linux/MacOS
+python app\Main.py #Windows
+```
