@@ -6,17 +6,20 @@ Sistema para crear, gestionar y analizar encuestas de manera eficiente.
 + Leymar Erney Buenaventura Asprilla
 
 ## Características
-
-- Creación y gestión de encuestas
+- Sistema de autenticación de usuarios
+- Gestión de encuestas
+  - Crear nuevas encuestas
+  - Editar encuestas existentes
+  - Banco de preguntas predefinidas
+  - Personalización de preguntas
 - Gestión de participantes
-- Importación de datos desde CSV
-- Generación de informes
+  - Registro de participantes
+  - Visualización de lista de participantes
 - Interfaz gráfica intuitiva
 
 ## Requisitos
-
-- Python 3.8 o superior
-- Dependencias listadas en requirements.txt
+- Python 3.x
+- Librerías listadas en el requirements.txt
 
 ## Instalación
 
@@ -33,6 +36,7 @@ python app/main.py
 
 
 ## Estructura del Proyecto
+app/ ├── main.py ├── ventana_login.py ├── ventana_principal.py ├── ventana_edicion.py ├── ventana_gestionar_encuestas.py ├── ventana_gestionar_participantes.py ├── dialogo_nuevo_participante.py ├── banco_preguntas.py ├── encuesta.py └── gestion_usuarios.py
 
 - `/app`: Código fuente de la aplicación
 - `/docs`: Documentación y diagramas
