@@ -96,7 +96,7 @@ class VentanaPrincipal:
         pass
 
     def gestionar_usuarios(self):
-        pass
+        VentanaParticipantes(self.root)
 
     def cerrar_sesion(self):
         if messagebox.askyesno("Cerrar Sesión", "¿Está seguro que desea cerrar sesión?"):

@@ -1,4 +1,4 @@
-from roles import TipoRol, Rol
+from rol import TipoRol, Rol
 from usuario import Usuario
 
 class GestionUsuarios:

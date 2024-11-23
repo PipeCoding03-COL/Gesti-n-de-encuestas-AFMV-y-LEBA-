@@ -42,12 +42,12 @@ class VentanaLogin(tk.Tk):
         self.bind('<Return>', lambda e: self.login())
 
     def login(self):
-        """
+        
         correo = "andres@project.us"
         password = "Cali"
-        """
-        correo = self.correo_var.get()
-        password = self.password_var.get()
+        
+        """correo = self.correo_var.get()
+        password = self.password_var.get()"""
         
         usuario = self.gestion_usuarios.validar_credenciales(correo, password)
         if usuario:
