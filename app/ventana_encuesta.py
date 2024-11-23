@@ -173,10 +173,7 @@ class VentanaEncuesta(tk.Toplevel):
                                                  pregunta['tipo'], 
                                                  ", ".join(opciones)))
 
-    def guardar_encuesta(self):
-        # Agregamos un print para verificar el valor del título
-        print("Título ingresado:", self.titulo_var.get())
-        
+    def guardar_encuesta(self):        
         titulo = self.titulo_var.get().strip()
         if not titulo:
             messagebox.showerror("Error", "El título es obligatorio")

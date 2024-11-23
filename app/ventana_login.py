@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+from ventana_principal import VentanaPrincipal
 from main import Aplicacion
 from gestion_usuarios import GestionUsuarios
 
@@ -17,16 +18,12 @@ class VentanaLogin(tk.Tk):
         y_ventana = self.winfo_screenheight() // 2 - alto_ventana // 2
         self.geometry(f"{ancho_ventana}x{alto_ventana}+{x_ventana}+{y_ventana}")
         
-        # Sistema de usuarios - creado cada vez
-        self.gestion_usuarios = GestionUsuarios()
-        
-        # Variables
         self.correo_var = tk.StringVar()
         self.password_var = tk.StringVar()
         self.gestion_usuarios = GestionUsuarios()
         
         self.crear_widgets()
-        
+
     def crear_widgets(self):
         main_frame = ttk.Frame(self, padding="20")
         main_frame.pack(fill="both", expand=True)
@@ -43,8 +40,12 @@ class VentanaLogin(tk.Tk):
         ttk.Button(main_frame, text="Iniciar Sesión", command=self.login).pack(fill="x", pady=20)
         
         self.bind('<Return>', lambda e: self.login())
-        
+
     def login(self):
+        """
+        correo = "andres@project.us"
+        password = "Cali"
+        """
         correo = self.correo_var.get()
         password = self.password_var.get()
         
@@ -53,21 +54,8 @@ class VentanaLogin(tk.Tk):
             self.iniciar_aplicacion(usuario)
         else:
             messagebox.showerror("Error", "Credenciales incorrectas")
-            
+
     def iniciar_aplicacion(self, usuario):
         self.withdraw()
-        # Import here to avoid circular import
-        from main import Aplicacion
-        app = Aplicacion(usuario, self)  # Pass login window as parent
-        app.mainloop()
-
-    def cerrar_aplicacion(self, app):
-        app.root.destroy()
-        self.destroy()
-
-def main():
-    app = VentanaLogin()
-    app.mainloop()
-
-if __name__ == "__main__":
-    main()
+        ventana_principal = VentanaPrincipal(usuario, self)
+        ventana_principal.mainloop()
