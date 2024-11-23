@@ -21,13 +21,26 @@ Sistema para crear, gestionar y analizar encuestas de manera eficiente.
 - Python 3.x
 - Librerías listadas en el requirements.txt
 
+## Estructura del Proyecto
+- `/app`: Código fuente de la aplicación
+- `/docs`: Documentación y diagramas de clase UML
+- `requirements.txt`: Dependencias del proyecto
+
 ## Instalación
-
 1. Clonar el repositorio:
-git clone https://github.com/usuario/sistema_encuestas.git
+```bash
+git clone https://github.com/yourusername/Gestion-de-encuestas-AFMV-y-LEBA-.git
+```
 
-2. Instalar dependencias:
+2. Crear e inicializar el entorno virtual: 
+```bash
+python3 -m venv venv
+```
+
+3. Instalar librerías:
+```bash
 pip install -r requirements.txt
+```
 
 ## Uso
 
@@ -35,9 +48,3 @@ Ejecutar el programa principal:
 python app/main.py
 
 
-## Estructura del Proyecto
-app/ ├── main.py ├── ventana_login.py ├── ventana_principal.py ├── ventana_edicion.py ├── ventana_gestionar_encuestas.py ├── ventana_gestionar_participantes.py ├── dialogo_nuevo_participante.py ├── banco_preguntas.py ├── encuesta.py └── gestion_usuarios.py
-
-- `/app`: Código fuente de la aplicación
-- `/docs`: Documentación y diagramas
-- `requirements.txt`: Dependencias del proyecto
