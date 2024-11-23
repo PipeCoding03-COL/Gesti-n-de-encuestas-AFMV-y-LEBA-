@@ -1,0 +1,370 @@
+@startuml
+
+class AnalizadorResultados {
+  -estudio: Estudio
+  -resultados: dict
+  
+  +analizar(): dict
+  -obtener_info_general(): dict
+  -calcular_estadisticas(): dict
+  -generar_graficos(): dict
+  -obtener_datos_crudos(): list
+  +exportar_resultados(formato: str = 'csv'): void
+}
+
+AnalizadorResultados --> Estudio
+
+class BancoPreguntas {
+    -tipos_pregunta: dict
+    -preguntas: dict
+
+    +obtener_tipos_pregunta(): dict
+    +obtener_categoria(categoria: str): list
+    +obtener_categorias(): list
+    +obtener_preguntas(categoria: str): list
+    +agregar_pregunta(categoria: str, pregunta: str, tipo: str, opciones_personalizadas: list = None): void
+    +personalizar_opciones(categoria: str, indice_pregunta: int, opciones_nuevas: list): void
+}
+
+class Controlador {
+    -ventana_login: VentanaLogin
+    -aplicacion: Aplicacion
+    
+    +iniciar(): void
+    +iniciar_aplicacion(usuario: Usuario): void
+    +volver_login(): void
+}
+
+class Coordinador {
+    -nombre: str
+    -email: str
+    -rol: str
+    -estudios_asignados: List[Estudio]
+    
+    +crear_estudio(titulo: str, descripcion: str, tipo: str): Estudio
+    +obtener_estudios(): List[Estudio]
+    +obtener_estadisticas(): dict
+}
+
+class DialogoNuevoParticipante {
+    -participante: tuple
+    -nombre_var: StringVar
+    -email_var: StringVar
+    -edad_var: StringVar
+    -genero_var: StringVar
+    
+    -crear_widgets(): void
+    -center_window(): void
+    -guardar(): void
+    -validar_datos(): bool
+}
+
+VentanaParticipantes --> DialogoNuevoParticipante: crea
+VentanaParticipantes --> GestorDatos: usa
+
+class Encuesta {
+  - titulo: String
+  - descripcion: String
+  - creador: Usuario
+  - preguntas: List
+  - fecha_creacion: DateTime
+  - fecha_publicacion: DateTime
+  - fecha_cierre: DateTime
+  - estado: String
+  - participantes: List
+  - respuestas: Dictionary
+  
+  + agregar_pregunta(texto, tipo, opciones)
+  + publicar(fecha_cierre)
+  + cerrar()
+  + agregar_participante(participante)
+  + registrar_respuesta(participante_id, pregunta_id, respuesta)
+  + obtener_estadisticas(): Dictionary
+}
+
+class Estudio {
+  - titulo: String
+  - descripcion: String
+  - tipo: String
+  - coordinador: Usuario
+  - fecha_creacion: DateTime
+  - fecha_inicio: DateTime
+  - fecha_fin: DateTime
+  - estado: String
+  - encuesta: Encuesta
+  - grupo_objetivo: List
+  - resultados: Object
+  
+  + crear_encuesta(encuesta)
+  + definir_grupo_objetivo(participantes, criterios)
+  + iniciar_estudio()
+  + finalizar_estudio()
+  - filtrar_participantes(participantes, criterios): List
+  - cumple_criterio(participante, criterio, valor): Boolean
+}
+
+Estudio --> Encuesta
+
+class GestionUsuarios {
+    -usuarios: Dict[str, Usuario]
+    
+    -crear_usuarios_iniciales(): void
+    +agregar_usuario(usuario: Usuario): void
+    +obtener_usuario(correo: str): Usuario
+    +validar_credenciales(correo: str, contraseña: str): Usuario
+}
+
+GestionUsuarios "1" o-- "n" Usuario
+Usuario "1" --> "1" Rol
+Rol "1" --> "1" TipoRol
+
+class GestorDatos {
+    - importar_csv(ruta_archivo: str): List[dict]
+    - exportar_resultados(encuesta: Encuesta, ruta_archivo: str): void
+}
+
+GestorDatos ..> Encuesta: usa
+
+class Aplicacion {
+  + app: VentanaLogin
+
+  - correo_var: tk.StringVar
+  - gestion_usuarios: GestionUsuarios
+  - password_var: tk.StringVar
+}
+
+Aplicacion --> GestionUsuarios
+VentanaLogin --> Aplicacion
+
+
+class Participante {
+    -nombre: str
+    -email: str
+    -edad: int
+    -genero: str
+    -datos_adicionales: Dict
+    
+    +agregar_dato(clave: str, valor: Any): void
+}
+
+class Pregunta {
+    -texto: str
+    -tipo: str
+    -opciones: List[str]
+    
+    +agregar_opcion(opcion: str): void
+}
+
+class ResultadosEncuesta {
+    -encuesta: Encuesta
+    -respuestas: List
+    -tasa_respuesta: float
+    -distribucion_respuestas: Dict
+    -estadisticas: Dict
+    
+    +generar_informe(): Report
+    -calcular_tasa_respuesta(): void
+    -analizar_distribucion(): void
+    -calcular_estadisticas(): void
+    -crear_reporte(): Report
+    +exportar_datos_crudos(): void
+}
+
+ResultadosEncuesta --> Encuesta
+
+class Rol {
+    -tipo: TipoRol
+    -permisos: Dict[str, bool]
+    
+    -_asignar_permisos(): Dict[str, bool]
+}
+
+class TipoRol {
+    <<enumeration>>
+    COORDINADOR
+    ANALISTA
+}
+
+Rol --> TipoRol
+
+class Usuario {
+    -nombre: str
+    -correo: str
+    -contraseña: str
+    -rol: Rol
+    -activo: bool
+    
+    +tiene_permiso(permiso: str): bool
+    +puede_crear_encuesta(): bool
+    +puede_ver_resultados(): bool
+    +puede_generar_informes(): bool
+    +puede_gestionar_usuarios(): bool
+}
+
+Encuesta "1" --> "n" Usuario
+Encuesta "1" *-- "n" Pregunta
+Usuario --> Rol
+
+class VentanaEdicion {
+  - banco_preguntas: BancoPreguntas
+  - categoria_var: StringVar
+  - encuesta: Encuesta
+  - indice: int
+  - preguntas_seleccionadas: list
+  - titulo_var: StringVar
+  
+  + actualizar_lista_seleccionadas()
+  + actualizar_preguntas()
+  + agregar_pregunta()
+  + cargar_datos_encuesta()
+  + crear_widgets()
+  + editar_pregunta()
+  + eliminar_pregunta() 
+  + guardar_cambios()
+  + validar_datos()
+}
+
+VentanaEdicion --> BancoPreguntas
+VentanaEdicion --> Encuesta
+VentanaEdicion "1" --> "1" VentanaPersonalizarPregunta: crea
+
+class VentanaEncuesta {
+    -banco_preguntas: BancoPreguntas
+    -categoria_var: StringVar
+    -descripcion_text: Text
+    -lista_preguntas: Treeview
+    -lista_seleccionadas: Treeview
+    -preguntas_seleccionadas: List[Dict]
+    -titulo_var: StringVar
+    
+    -actualizar_lista_seleccionadas(): void
+    +actualizar_preguntas(event: Event = None): void
+    +agregar_pregunta(): void
+    -crear_widgets(): void
+    +eliminar_pregunta(): void
+    +guardar_encuesta(): void
+    +personalizar_pregunta(): void
+}
+
+class VentanaGestionarEncuestas {
+    - encuestas: List[Encuesta]
+    -estado_var: StringVar
+    
+    +actualizar_encuesta(): void
+    - agregar_encuesta(encuesta: Encuesta): void
+    +aplicar_filtros(): void
+    +cargar_desde_csv(): void
+    +cargar_encuestas(): void
+    +cerrar_encuesta(): void
+    -crear_widgets(): void
+    +editar_encuesta(): void
+    +eliminar_encuesta(): void
+    -mostrar_resultados(encuesta: Encuesta): void
+    +nueva_encuesta(): void
+    +publicar_encuesta(): void
+    +ver_resultados(): void
+}
+
+VentanaGestionarEncuestas "1" o-- "n" Encuesta
+VentanaGestionarEncuestas "1" -- "1" VentanaEncuesta: crea
+
+class VentanaLogin {
+  - correo_var: StringVar
+  - gestion_usuarios: GestionUsuarios
+  - password_var: StringVar
+  
+  + crear_widgets()
+  + iniciar_aplicacion(usuario)
+  + login()
+}
+
+VentanaLogin --> GestionUsuarios
+VentanaLogin --> VentanaPrincipal: crea
+
+class VentanaParticipantes {
+    -edad_var: StringVar
+    -genero_var: StringVar
+    -participantes: list
+    -tabla: ttk.Treeview
+    
+    +agregar_participante(): void
+    +aplicar_filtros(): void
+    +cargar_participantes(datos: list): void
+    -crear_tabla(): void
+    -crear_widgets(): void
+    +eliminar_seleccionados(): void
+    +importar_csv(): void
+}
+
+VentanaParticipantes "1" --> "1" Participante: crea
+
+class VentanaPersonalizarPregunta {
+    -combo_tipo: ttk.Combobox
+    -frame_opciones: ttk.LabelFrame
+    -opciones_entries: List[ttk.Entry]
+    -pregunta: dict
+    -resultado: dict
+    -texto_pregunta: ttk.Entry
+    -tipo_var: StringVar
+    
+    -actualizar_opciones(event: Event = None): void
+    -agregar_opcion(): void
+    +cancelar(): void
+    -center_window(): void
+    -crear_widgets(): void
+    -eliminar_opcion(frame: ttk.Frame, entry: ttk.Entry): void
+    +guardar(): void
+    -restaurar_defaults(): void
+    -validar_datos(): bool
+}
+
+class VentanaPrincipal {
+  - parent: VentanaLogin
+  - usuario: Usuario
+  
+  - abrir_gestionar_encuestas()
+  - abrir_resultados()
+  - cerrar_aplicacion()
+  - cerrar_sesion()
+  - crear_widgets()
+  - gestionar_usuarios()
+  + mainloop()
+}
+
+VentanaPrincipal --> VentanaUsuarios
+
+class VentanaResponderEncuesta {
+    -encuesta: Encuesta
+    -respuestas: Dict[int, StringVar]
+    
+    -crear_widgets(): void
+    -enviar_respuestas(): void
+}
+
+VentanaResponderEncuesta --> Encuesta
+
+class VentanaResultados {
+    -usuario: Usuario
+    -lista_encuestas: Treeview
+    -resultado_text: Text
+    
+    -cargar_encuestas(): void
+    -crear_widgets(): void
+    +exportar_datos(): void
+    +generar_informe(): void
+    +ver_estadisticas(): void
+}
+
+VentanaResultados --> Usuario
+
+class VentanaUsuarios {
+    -lista_usuarios: Treeview
+    
+    -cargar_usuarios(): void
+    -crear_widgets(): void
+    +editar_usuario(): void
+    +eliminar_usuario(): void
+    +nuevo_usuario(): void
+}
+
+@enduml

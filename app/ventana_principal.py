@@ -35,7 +35,7 @@ class VentanaPrincipal:
         if self.usuario.puede_gestionar_usuarios():
             menu_admin = tk.Menu(menu_bar, tearoff=0)
             menu_bar.add_cascade(label="Administración", menu=menu_admin)
-            menu_admin.add_command(label="Gestionar Usuarios", 
+            menu_admin.add_command(label="Gestionar participantes", 
                                  command=self.gestionar_usuarios)
         
         # Menú Usuario
