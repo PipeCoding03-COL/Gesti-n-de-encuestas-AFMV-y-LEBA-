@@ -4,7 +4,6 @@ class AnalizadorResultados {
   -estudio: Estudio
   -resultados: dict
   
-  +__init__(estudio: Estudio)
   +analizar(): dict
   -obtener_info_general(): dict
   -calcular_estadisticas(): dict
@@ -22,11 +21,6 @@ class Estudio {
   +encuesta: Encuesta
 }
 
-class Encuesta {
-  +preguntas: list
-  +respuestas: dict
-}
-
 AnalizadorResultados --> Estudio: -estudio
 Estudio --> Encuesta: +encuesta
 
@@ -34,7 +28,6 @@ class BancoPreguntas {
     -tipos_pregunta: dict
     -preguntas: dict
 
-    +__init__()
     +obtener_tipos_pregunta(): dict
     +obtener_categoria(categoria: str): list
     +obtener_categorias(): list
@@ -57,23 +50,10 @@ class Pregunta {
 BancoPreguntas "1" *-- "n" TipoPregunta: -tipos_pregunta
 BancoPreguntas "1" *-- "n" Pregunta: -preguntas
 
-note right of BancoPreguntas
-  Categorías disponibles:
-  - Satisfacción Laboral
-  - Desarrollo Profesional
-  - Liderazgo
-  - Procesos y Eficiencia
-  - Innovación
-  - Clima Organizacional
-  - Servicio al Cliente
-  - Bienestar
-end note
-
 class Controlador {
     -ventana_login: VentanaLogin
     -aplicacion: Aplicacion
     
-    +__init__()
     +iniciar(): void
     +iniciar_aplicacion(usuario: Usuario): void
     +volver_login(): void
@@ -87,7 +67,6 @@ class VentanaLogin {
 
 class Aplicacion {
     -root: tk.Tk
-    +__init__(usuario: Usuario, controlador: Controlador)
     +mainloop()
 }
 
@@ -100,7 +79,6 @@ class Coordinador {
     -rol: str
     -estudios_asignados: List[Estudio]
     
-    +__init__(nombre: str, email: str, rol: str = "coordinador")
     +crear_estudio(titulo: str, descripcion: str, tipo: str): Estudio
     +obtener_estudios(): List[Estudio]
     +obtener_estadisticas(): dict
@@ -112,34 +90,22 @@ class Estudio {
     -tipo: str
     -estado: str
     -coordinador: Coordinador
-    
-    +__init__(titulo: str, descripcion: str, tipo: str, coordinador: Coordinador)
 }
 
 Coordinador "1" o-- "n" Estudio: -estudios_asignados
 
-class Encuesta {
-    -titulo: str
-    -descripcion: str
-    -creador: Usuario
-    -preguntas: List[dict]
-    -fecha_creacion: datetime
-    -fecha_publicacion: datetime
-    -fecha_cierre: datetime
-    -estado: str
-    -participantes: List[Usuario]
-    -respuestas: dict
-    
-    +__init__(titulo: str, descripcion: str, creador: Usuario)
-    +agregar_pregunta(texto: str, tipo: str, opciones: list = None): void
-    +publicar(fecha_cierre: datetime = None): void
-    +cerrar(): void
-    +agregar_participante(participante: Usuario): void
-    +registrar_respuesta(participante_id: int, pregunta_id: int, respuesta: str): void
-    +obtener_estadisticas(): dict
-}
-
 class Usuario {
+  - nombre: String
+  - correo: String
+  - contraseña: String
+  - rol: Rol
+  - activo: Boolean
+  + __init__(nombre, correo, contraseña, rol)
+  + tiene_permiso(permiso): Boolean
+  + puede_crear_encuesta(): Boolean
+  + puede_ver_resultados(): Boolean
+  + puede_generar_informes(): Boolean
+  + puede_gestionar_usuarios(): Boolean
 }
 
 class Pregunta {
@@ -157,24 +123,17 @@ enum TipoRol {
     ANALISTA
 }
 
-class Rol {
-    -tipo: TipoRol
-    +__init__(tipo: TipoRol)
-}
-
 class Usuario {
     -nombre: str
     -correo: str
     -ubicacion: str
     -rol: Rol
     -contraseña: str
-    +__init__(nombre: str, correo: str, ubicacion: str, rol: Rol)
 }
 
 class GestionUsuarios {
     -usuarios: Dict[str, Usuario]
     
-    +__init__()
     -crear_usuarios_iniciales(): void
     +agregar_usuario(usuario: Usuario): void
     +obtener_usuario(correo: str): Usuario
@@ -190,14 +149,6 @@ class GestorDatos {
     +{static} exportar_resultados(encuesta: Encuesta, ruta_archivo: str): void
 }
 
-class Encuesta {
-}
-
-note right of GestorDatos
-  Manages data import/export operations
-  using pandas for CSV handling
-end note
-
 GestorDatos ..> Encuesta: uses
 
 class VentanaLogin {
@@ -205,7 +156,6 @@ class VentanaLogin {
     -password_var: StringVar
     -gestion_usuarios: GestionUsuarios
     
-    +__init__()
     -crear_widgets(): void
     -login(): void
     -iniciar_aplicacion(usuario: Usuario): void
@@ -216,7 +166,6 @@ class VentanaPrincipal {
     -usuario: Usuario
     -root: Tk
     
-    +__init__(usuario: Usuario, parent: VentanaLogin)
     -crear_widgets(): void
     +abrir_gestionar_encuestas(): void
     +abrir_resultados(): void
@@ -242,7 +191,6 @@ VentanaPrincipal --> Usuario
 class VentanaUsuarios {
     -lista_usuarios: Treeview
     
-    +__init__(parent: tk.Widget)
     -crear_widgets(): void
     -cargar_usuarios(): void
     +nuevo_usuario(): void
@@ -254,19 +202,12 @@ class tk.Toplevel {
 }
 
 VentanaUsuarios --|> tk.Toplevel
-note right of VentanaUsuarios
-  User management window with:
-  - User list display
-  - CRUD operations
-  - Scrollable TreeView
-end note
 
 class VentanaResultados {
     -usuario: Usuario
     -lista_encuestas: Treeview
     -resultado_text: Text
     
-    +__init__(parent: tk.Widget, usuario: Usuario)
     -crear_widgets(): void
     -cargar_encuestas(): void
     +ver_estadisticas(): void
@@ -283,18 +224,10 @@ class Usuario {
 VentanaResultados --|> tk.Toplevel
 VentanaResultados --> Usuario
 
-note right of VentanaResultados
-  Survey results window featuring:
-  - Survey list display
-  - Results visualization
-  - Export capabilities
-end note
-
 class VentanaResponderEncuesta {
     -encuesta: Encuesta
     -respuestas: Dict[int, StringVar]
     
-    +__init__(parent: tk.Widget, encuesta: Encuesta)
     -crear_widgets(): void
     -enviar_respuestas(): void
 }
@@ -302,28 +235,13 @@ class VentanaResponderEncuesta {
 class tk.Toplevel {
 }
 
-class Encuesta {
-    +titulo: str
-    +descripcion: str
-    +preguntas: List[dict]
-    +registrar_respuesta(participante_id: str, pregunta_id: int, respuesta: str): void
-}
-
 VentanaResponderEncuesta --|> tk.Toplevel
 VentanaResponderEncuesta --> Encuesta
-
-note right of VentanaResponderEncuesta
-  Survey response window with:
-  - Dynamic question rendering
-  - Response collection
-  - Validation and submission
-end note
 
 class VentanaPrincipal {
     -frame_principal: ttk.Frame
     -root: tk.Tk
     
-    +__init__()
     -crear_menu(): void
     -crear_widgets(): void
     +nueva_encuesta(): void
@@ -344,13 +262,6 @@ VentanaPrincipal --> VentanaEncuesta: creates
 VentanaPrincipal --> VentanaParticipantes: creates
 VentanaPrincipal --> VentanaGestionarEncuestas: creates
 
-note right of VentanaPrincipal
-  Main application window with:
-  - Menu bar
-  - Main navigation buttons
-  - Survey and participant management
-end note
-
 class VentanaPersonalizarPregunta {
     -pregunta: dict
     -resultado: dict
@@ -360,7 +271,6 @@ class VentanaPersonalizarPregunta {
     -frame_opciones: ttk.LabelFrame
     -opciones_entries: List[ttk.Entry]
     
-    +__init__(parent: tk.Widget, pregunta: dict)
     -center_window(): void
     -crear_widgets(): void
     -actualizar_opciones(event: Event = None): void
@@ -382,21 +292,12 @@ class BancoPreguntas {
 VentanaPersonalizarPregunta --|> tk.Toplevel
 VentanaPersonalizarPregunta --> BancoPreguntas: uses
 
-note right of VentanaPersonalizarPregunta
-  Question customization window with:
-  - Question text editing
-  - Question type selection
-  - Dynamic answer options
-  - Validation and persistence
-end note
-
 class VentanaParticipantes {
     -participantes: list
     -tabla: ttk.Treeview
     -edad_var: StringVar
     -genero_var: StringVar
     
-    +__init__(parent: tk.Widget)
     -crear_widgets(): void
     -crear_tabla(): void
     +importar_csv(): void
@@ -413,7 +314,6 @@ class DialogoNuevoParticipante {
     -edad_var: StringVar
     -genero_var: StringVar
     
-    +__init__(parent: tk.Widget)
     -crear_widgets(): void
     -guardar(): void
     -validar_datos(): bool
@@ -429,24 +329,11 @@ DialogoNuevoParticipante --|> tk.Toplevel
 VentanaParticipantes --> DialogoNuevoParticipante: creates
 VentanaParticipantes --> GestorDatos: uses
 
-note right of VentanaParticipantes
-  Participant management window with:
-  - CSV import
-  - Participant CRUD
-  - Filtering capabilities
-end note
-
-note right of DialogoNuevoParticipante
-  Dialog for adding new participants
-  with data validation
-end note
-
 class VentanaLogin {
     -gestion_usuarios: GestionUsuarios
     -correo_var: StringVar
     -password_var: StringVar
     
-    +__init__()
     -crear_widgets(): void
     -login(): void
     +iniciar_aplicacion(usuario: Usuario): void
@@ -469,19 +356,11 @@ VentanaLogin --|> tk.Tk
 VentanaLogin --> GestionUsuarios
 VentanaLogin --> Aplicacion: creates
 
-note right of VentanaLogin
-  Login window with:
-  - User authentication
-  - Application initialization
-  - Centered window positioning
-end note
-
 class VentanaGestionarEncuestas {
     {static} -encuestas: List[Encuesta]
     -tabla: ttk.Treeview
     -estado_var: StringVar
     
-    +__init__(parent: tk.Widget)
     +{static} agregar_encuesta(encuesta: Encuesta): void
     -crear_widgets(): void
     +editar_encuesta(): void
@@ -500,25 +379,8 @@ class VentanaGestionarEncuestas {
 class tk.Toplevel {
 }
 
-class Encuesta {
-    +titulo: str
-    +descripcion: str
-    +estado: str
-    +fecha_creacion: datetime
-    +participantes: List
-    +respuestas: Dict
-}
-
 VentanaGestionarEncuestas --|> tk.Toplevel
 VentanaGestionarEncuestas "1" o-- "n" Encuesta: -encuestas
-
-note right of VentanaGestionarEncuestas
-  Survey management window with:
-  - CRUD operations
-  - Survey lifecycle management
-  - CSV import/export
-  - Results visualization
-end note
 
 class VentanaEncuesta {
     -parent: tk.Widget
@@ -530,7 +392,6 @@ class VentanaEncuesta {
     -lista_preguntas: Treeview
     -lista_seleccionadas: Treeview
     
-    +__init__(parent: tk.Widget)
     -crear_widgets(): void
     +actualizar_preguntas(event: Event = None): void
     +agregar_pregunta(): void
@@ -549,21 +410,9 @@ class BancoPreguntas {
 class VentanaPersonalizarPregunta {
 }
 
-class Encuesta {
-    +agregar_pregunta(texto: str, tipo: str): void
-}
-
 VentanaEncuesta --|> tk.Toplevel
 VentanaEncuesta --> BancoPreguntas
 VentanaEncuesta --> VentanaPersonalizarPregunta: creates
-VentanaEncuesta --> Encuesta: creates
-
-note right of VentanaEncuesta
-  Survey creation window featuring:
-  - Question bank integration
-  - Question customization
-  - Dynamic question management
-end note
 
 class VentanaEdicion {
     -encuesta: Encuesta
@@ -573,7 +422,6 @@ class VentanaEdicion {
     -titulo_var: StringVar
     -categoria_var: StringVar
     
-    +__init__(parent: tk.Widget, encuesta: Encuesta, indice: int)
     -crear_widgets(): void
     -cargar_datos_encuesta(): void
     +actualizar_preguntas(event: Event = None): void
@@ -601,13 +449,6 @@ VentanaEdicion --> BancoPreguntas
 VentanaEdicion --> VentanaPersonalizarPregunta: creates
 VentanaEdicion --> Encuesta: modifies
 
-note right of VentanaEdicion
-  Survey editing window featuring:
-  - Question bank integration
-  - Question customization
-  - Survey data modification
-end note
-
 class Usuario {
     -nombre: str
     -correo: str
@@ -615,7 +456,6 @@ class Usuario {
     -rol: Rol
     -activo: bool
     
-    +__init__(nombre: str, correo: str, contraseña: str, rol: Rol)
     +tiene_permiso(permiso: str): bool
     +puede_crear_encuesta(): bool
     +puede_ver_resultados(): bool
@@ -623,23 +463,7 @@ class Usuario {
     +puede_gestionar_usuarios(): bool
 }
 
-class Rol {
-    +permisos: Dict[str, bool]
-}
-
 Usuario --> Rol
-
-note right of Usuario
-  User class with:
-  - Basic user information
-  - Role-based permissions
-  - Permission checking methods
-end note
-
-note right of Rol
-  Role defines user permissions
-  through a dictionary
-end note
 
 enum TipoRol {
     COORDINADOR
@@ -650,29 +474,10 @@ class Rol {
     -tipo: TipoRol
     -permisos: Dict[str, bool]
     
-    +__init__(tipo: TipoRol)
     -_asignar_permisos(): Dict[str, bool]
 }
 
 Rol --> TipoRol
-
-note right of TipoRol
-  Defines user role types:
-  - Coordinator
-  - Analyst
-end note
-
-note right of Rol
-  Role management with:
-  - Permission assignment
-  - Role-specific access control
-end note
-
-note bottom of Rol
-Permissions by role:
-COORDINADOR: Full access
-ANALISTA: Read-only + Reports
-end note
 
 class ResultadosEncuesta {
     -encuesta: Encuesta
@@ -681,7 +486,6 @@ class ResultadosEncuesta {
     -distribucion_respuestas: Dict
     -estadisticas: Dict
     
-    +__init__(encuesta: Encuesta)
     +generar_informe(): Report
     -calcular_tasa_respuesta(): void
     -analizar_distribucion(): void
@@ -691,43 +495,35 @@ class ResultadosEncuesta {
 }
 
 class Encuesta {
-    +preguntas: List
-    +respuestas: List
+  - titulo: String
+  - descripcion: String
+  - creador: Usuario
+  - preguntas: List
+  - fecha_creacion: DateTime
+  - fecha_publicacion: DateTime
+  - fecha_cierre: DateTime
+  - estado: String
+  - participantes: List
+  - respuestas: Dictionary
+  
+  + __init__(titulo, descripcion, creador)
+  + agregar_pregunta(texto, tipo, opciones)
+  + publicar(fecha_cierre)
+  + cerrar()
+  + agregar_participante(participante)
+  + registrar_respuesta(participante_id, pregunta_id, respuesta)
+  + obtener_estadisticas(): Dictionary
 }
 
 ResultadosEncuesta --> Encuesta
-
-note right of ResultadosEncuesta
-  Survey results analysis with:
-  - Response rate calculation
-  - Distribution analysis
-  - Statistical computations
-  - Report generation
-  - Raw data export
-end note
 
 class Pregunta {
     -texto: str
     -tipo: str
     -opciones: List[str]
     
-    +__init__(texto: str, tipo: str)
     +agregar_opcion(opcion: str): void
 }
-
-note right of Pregunta
-  Survey question with:
-  - Question text
-  - Question type (multiple/open/scale)
-  - Options for multiple choice
-end note
-
-note bottom of Pregunta
-  Valid question types:
-  - multiple
-  - abierta
-  - escala
-end note
 
 class Participante {
     -nombre: str
@@ -736,15 +532,7 @@ class Participante {
     -genero: str
     -datos_adicionales: Dict
     
-    +__init__(nombre: str, email: str, edad: int = None, genero: str = None)
     +agregar_dato(clave: str, valor: Any): void
 }
-
-note right of Participante
-  Survey participant with:
-  - Basic personal information
-  - Optional demographic data
-  - Extensible additional data
-end note
 
 @enduml
