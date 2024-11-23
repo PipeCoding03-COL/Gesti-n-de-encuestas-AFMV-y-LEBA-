@@ -44,4 +44,4 @@ class VentanaPrincipal:
         
     def gestionar_participantes(self):
         """Abre la ventana de gestión de participantes"""
-        VentanaParticipantes(self.root)
+        VentanaGestionarEncuestas(self.root)

@@ -212,3 +212,11 @@ class VentanaEdicion(tk.Toplevel):
         self.master.cargar_encuestas()
         messagebox.showinfo("Éxito", "Encuesta actualizada correctamente")
         self.destroy()
+
+    def validar_datos(self):
+        # Validate that all required fields have data
+        if (self.nombre_entry.get() and 
+            self.descripcion_text.get("1.0", "end-1c") and 
+            self.fecha_entry.get()):
+            return True
+        return False

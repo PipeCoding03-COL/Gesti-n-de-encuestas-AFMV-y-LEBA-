@@ -8,14 +8,14 @@ from ventana_gestionar_encuestas import VentanaGestionarEncuestas
 class VentanaEncuesta(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
-        self.title("Crear Nueva Encuesta")
-        self.geometry("1000x700")
-        
+        self.parent = parent  # Store the parent reference
+        self.title("Nueva Encuesta")
+        self.geometry("800x600")        
         self.banco_preguntas = BancoPreguntas()
         self.preguntas_seleccionadas = []
         
-        # Variables
-        self.titulo_var = tk.StringVar()
+        # Inicializa la variable con StringVar()
+        self.titulo_var = tk.StringVar(self)  # Añadimos 'self' como master
         self.categoria_var = tk.StringVar()
         
         self.crear_widgets()
@@ -34,8 +34,9 @@ class VentanaEncuesta(tk.Toplevel):
         info_frame.pack(fill="x", pady=5)
 
         ttk.Label(info_frame, text="Título:").grid(row=0, column=0, sticky=tk.W)
-        ttk.Entry(info_frame, textvariable=self.titulo_var, width=50).grid(row=0, column=1, pady=5)
-
+        # Modifica el Entry para asegurar la conexión
+        titulo_entry = ttk.Entry(info_frame, textvariable=self.titulo_var, width=50)
+        titulo_entry.grid(row=0, column=1, pady=5)
         ttk.Label(info_frame, text="Descripción:").grid(row=1, column=0, sticky=tk.W)
         self.descripcion_text = tk.Text(info_frame, width=50, height=3)
         self.descripcion_text.grid(row=1, column=1, pady=5)
@@ -51,17 +52,19 @@ class VentanaEncuesta(tk.Toplevel):
         ttk.Label(filtros_frame, text="Categoría:").pack(side=tk.LEFT)
         self.combo_categoria = ttk.Combobox(filtros_frame, 
                                           textvariable=self.categoria_var,
-                                          values=self.banco_preguntas.obtener_categorias())
+                                          values=self.banco_preguntas.obtener_categorias(),
+                                          state="readonly")  # Añadimos state="readonly"
         self.combo_categoria.pack(side=tk.LEFT, padx=5)
-        self.combo_categoria.bind('<<ComboboxSelected>>', self.actualizar_preguntas)
+        self.combo_categoria.bind('<<ComboboxSelected>>', lambda event: self.actualizar_preguntas())
 
         ttk.Label(filtros_frame, text="Tipo:").pack(side=tk.LEFT, padx=5)
         self.tipo_var = tk.StringVar()
         self.combo_tipo = ttk.Combobox(filtros_frame, 
                                      textvariable=self.tipo_var,
-                                     values=list(self.banco_preguntas.tipos_pregunta.keys()))
+                                     values=list(self.banco_preguntas.tipos_pregunta.keys()),
+                                     state="readonly")  # Añadimos state="readonly"
         self.combo_tipo.pack(side=tk.LEFT)
-        self.combo_tipo.bind('<<ComboboxSelected>>', self.actualizar_preguntas)
+        self.combo_tipo.bind('<<ComboboxSelected>>', lambda event: self.actualizar_preguntas())
 
         # Lista de preguntas disponibles
         self.lista_preguntas = ttk.Treeview(banco_frame, columns=("texto", "tipo"), show="headings")
@@ -102,18 +105,28 @@ class VentanaEncuesta(tk.Toplevel):
                   command=self.guardar_encuesta).pack(side=tk.LEFT, padx=5)
         ttk.Button(botones_main, text="Cancelar", 
                   command=self.destroy).pack(side=tk.LEFT)
-
-    def actualizar_preguntas(self, event=None):
-        self.lista_preguntas.delete(*self.lista_preguntas.get_children())
-        categoria = self.categoria_var.get()
-        tipo_filtro = self.tipo_var.get()
         
-        preguntas = self.banco_preguntas.obtener_categoria(categoria)
-        for pregunta in preguntas:
-            if not tipo_filtro or pregunta['tipo'] == tipo_filtro:
-                self.lista_preguntas.insert("", "end", 
-                                          values=(pregunta['texto'], pregunta['tipo']))
+        # Añadir esta línea al final del método
+        self.actualizar_preguntas()
+        
+    def actualizar_preguntas(self, event=None):
+        # Limpiamos la lista actual
+        self.lista_preguntas.delete(*self.lista_preguntas.get_children())
+        
+        # Obtenemos los valores seleccionados
+        categoria = self.combo_categoria.get()  # Cambiamos a usar get() directamente del combo
+        tipo_filtro = self.combo_tipo.get()    # Cambiamos a usar get() directamente del combo
+        
+        # Obtenemos las preguntas de la categoría seleccionada
+        if categoria:
+            preguntas = self.banco_preguntas.obtener_categoria(categoria)
+            for pregunta in preguntas:
+                if not tipo_filtro or pregunta['tipo'] == tipo_filtro:
+                    self.lista_preguntas.insert("", "end", 
+                                              values=(pregunta['texto'], pregunta['tipo']))
 
+        # Forzamos la actualización visual
+        self.lista_preguntas.update()
     def agregar_pregunta(self):
         seleccion = self.lista_preguntas.selection()
         if not seleccion:
@@ -161,7 +174,11 @@ class VentanaEncuesta(tk.Toplevel):
                                                  ", ".join(opciones)))
 
     def guardar_encuesta(self):
-        if not self.titulo_var.get().strip():
+        # Agregamos un print para verificar el valor del título
+        print("Título ingresado:", self.titulo_var.get())
+        
+        titulo = self.titulo_var.get().strip()
+        if not titulo:
             messagebox.showerror("Error", "El título es obligatorio")
             return
             
@@ -170,7 +187,7 @@ class VentanaEncuesta(tk.Toplevel):
             return
             
         nueva_encuesta = Encuesta(
-            titulo=self.titulo_var.get(),
+            titulo=titulo,
             descripcion=self.descripcion_text.get("1.0", tk.END).strip(),
             creador="usuario_actual"
         )
@@ -179,5 +196,5 @@ class VentanaEncuesta(tk.Toplevel):
             nueva_encuesta.agregar_pregunta(pregunta['texto'], pregunta['tipo'])
             
         VentanaGestionarEncuestas.agregar_encuesta(nueva_encuesta)
-        messagebox.showinfo("Éxito", "Encuesta guardada correctamente")
+        self.parent.cargar_encuestas()  # Add this line to refresh the surveys list
         self.destroy()

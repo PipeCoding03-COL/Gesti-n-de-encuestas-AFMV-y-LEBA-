@@ -216,27 +216,25 @@ class VentanaGestionarEncuestas(tk.Toplevel):
             else:
                 self.tabla.detach(item)
     
-    def cargar_desde_csv(self): #TODO Quitar este parametro
-        """
+    def cargar_desde_csv(self):
         filename = filedialog.askopenfilename(
             title="Seleccionar archivo CSV",
             filetypes=(("CSV files", "*.csv"), ("All files", "*.*"))
         )
-        if filename:""" 
-        filename = "data/datos_encuestas.csv"
-        with open(filename, 'r', encoding='utf-8') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                nueva_encuesta = Encuesta(
-                    titulo=row['titulo'],
-                    descripcion=row['descripcion'],
-                    creador=row['creador']
-                )
-                # Convertir string de preguntas a lista
-                preguntas = row['preguntas'].split('|')
-                for pregunta in preguntas:
-                    nueva_encuesta.agregar_pregunta(pregunta, "multiple")
-                
-                nueva_encuesta.estado = row['estado']
-                VentanaGestionarEncuestas.agregar_encuesta(nueva_encuesta)
-            self.cargar_encuestas()
+        if filename:
+            with open(filename, 'r', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    nueva_encuesta = Encuesta(
+                        titulo=row['titulo'],
+                        descripcion=row['descripcion'],
+                        creador=row['creador']
+                    )
+                    # Convertir string de preguntas a lista
+                    preguntas = row['preguntas'].split('|')
+                    for pregunta in preguntas:
+                        nueva_encuesta.agregar_pregunta(pregunta, "multiple")
+                    
+                    nueva_encuesta.estado = row['estado']
+                    VentanaGestionarEncuestas.agregar_encuesta(nueva_encuesta)
+                self.cargar_encuestas()
