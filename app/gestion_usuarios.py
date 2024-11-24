@@ -1,8 +1,11 @@
 from rol import TipoRol, Rol
 from usuario import Usuario
 
+# Gestión de usuarios del sistema
+# Maneja la autenticación y administración de usuarios
 class GestionUsuarios:
     def __init__(self):
+        # Inicializa el sistema de gestión de usuarios
         self.usuarios = {}
         self.crear_usuarios_iniciales()
     

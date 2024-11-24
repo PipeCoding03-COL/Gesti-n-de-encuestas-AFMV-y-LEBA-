@@ -1,71 +1,75 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+
 class DialogoNuevoParticipante(tk.Toplevel):
-    """Diálogo para agregar un nuevo participante"""
-    
     def __init__(self, parent):
+        # Configura el diálogo modal para ingreso de nuevo participante
         super().__init__(parent)
         self.title("Nuevo Participante")
         self.geometry("400x300")
         self.resizable(False, False)
-        
-        # Initialize StringVars
+
+        # Inicializar los StringVars
         self.nombre_var = tk.StringVar(self)
         self.email_var = tk.StringVar(self)
         self.edad_var = tk.StringVar(self)
         self.genero_var = tk.StringVar(self)
-        
+
         self.participante = None
-        
-        # Make modal
+
+        # Hacer que la clase sea modal
         self.transient(parent)
         self.grab_set()
-        
+
         self.crear_widgets()
-        self.center_window()        
+        self.center_window()
+    # Crea los widgets del diálogo
+
     def crear_widgets(self):
-        """Crea los widgets del diálogo"""
         frame = ttk.Frame(self, padding="10")
         frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
-        
-        # Store Entry widgets as instance variables
-        ttk.Label(frame, text="Nombre:").grid(row=0, column=0, sticky=tk.W, pady=5)
+        ttk.Label(frame, text="Nombre:").grid(
+            row=0, column=0, sticky=tk.W, pady=5)
         self.nombre_entry = ttk.Entry(frame, width=30)
         self.nombre_entry.grid(row=0, column=1, pady=5)
-        
-        ttk.Label(frame, text="Email:").grid(row=1, column=0, sticky=tk.W, pady=5)
+
+        ttk.Label(frame, text="Email:").grid(
+            row=1, column=0, sticky=tk.W, pady=5)
         self.email_entry = ttk.Entry(frame, width=30)
-        self.email_entry.grid(row=1, column=1, pady=5)        
-        ttk.Label(frame, text="Edad:").grid(row=2, column=0, sticky=tk.W, pady=5)
+        self.email_entry.grid(row=1, column=1, pady=5)
+        ttk.Label(frame, text="Edad:").grid(
+            row=2, column=0, sticky=tk.W, pady=5)
         self.edad_var = tk.StringVar()
-        ttk.Entry(frame, textvariable=self.edad_var, width=30).grid(row=2, column=1, pady=5)
-        
-        ttk.Label(frame, text="Género:").grid(row=3, column=0, sticky=tk.W, pady=5)
+        ttk.Entry(frame, textvariable=self.edad_var,
+                  width=30).grid(row=2, column=1, pady=5)
+
+        ttk.Label(frame, text="Género:").grid(
+            row=3, column=0, sticky=tk.W, pady=5)
         self.genero_var = tk.StringVar()
-        ttk.Combobox(frame, textvariable=self.genero_var, 
-                    values=["Masculino", "Femenino", "Otro"], 
-                    width=27).grid(row=3, column=1, pady=5)
-        
+        ttk.Combobox(frame, textvariable=self.genero_var,
+                     values=["Masculino", "Femenino", "Otro"],
+                     width=27).grid(row=3, column=1, pady=5)
+
         # Botones
         frame_botones = ttk.Frame(frame)
         frame_botones.grid(row=4, column=0, columnspan=2, pady=20)
-        
-        ttk.Button(frame_botones, text="Guardar", 
-                  command=self.guardar).pack(side=tk.LEFT, padx=5)
-        ttk.Button(frame_botones, text="Cancelar", 
-                  command=self.destroy).pack(side=tk.LEFT, padx=5)
-        
+
+        ttk.Button(frame_botones, text="Guardar",
+                   command=self.guardar).pack(side=tk.LEFT, padx=5)
+        ttk.Button(frame_botones, text="Cancelar",
+                   command=self.destroy).pack(side=tk.LEFT, padx=5)
+
+    # Guarda los datos del nuevo participante
     def guardar(self):
-        """Guarda los datos del nuevo participante"""
-        # Get values directly from Entry widgets
         nombre = self.nombre_entry.get()
         email = self.email_entry.get()
         edad = self.edad_var.get()
         genero = self.genero_var.get()
         # Print captured values
-        print(f"Nombre: {nombre}\nEmail: {email}\nEdad: {edad}\nGénero: {genero}")
-        
+        print(f"Nombre: {nombre}\nEmail: {
+              email}\nEdad: {edad}\nGénero: {genero}")
+
         if nombre.strip() and email.strip():
             self.participante = (
                 nombre,
@@ -77,9 +81,8 @@ class DialogoNuevoParticipante(tk.Toplevel):
         else:
             messagebox.showerror("Error", "Nombre y email son obligatorios")
 
-            
+    # Valida los datos ingresados
     def validar_datos(self):
-        """Valida los datos ingresados"""
         if not self.nombre_var.get().strip() or not self.email_var.get().strip():
             messagebox.showerror("Error", "Nombre y email son obligatorios")
             return False
@@ -93,10 +96,8 @@ class DialogoNuevoParticipante(tk.Toplevel):
             return False
         return True
 
-
-        
+    # Centra la ventana en la pantalla
     def center_window(self):
-        """Centra la ventana en la pantalla"""
         self.update_idletasks()
         width = self.winfo_width()
         height = self.winfo_height()

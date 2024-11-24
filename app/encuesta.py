@@ -1,7 +1,10 @@
 from datetime import datetime
 
+# Modelo de encuesta
+# Define la estructura y comportamiento de las encuestas
 class Encuesta:
     def __init__(self, titulo, descripcion, creador):
+        # Inicializa una nueva encuesta con sus atributos básicos
         self.titulo = titulo
         self.descripcion = descripcion
         self.creador = creador

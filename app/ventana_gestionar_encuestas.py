@@ -6,7 +6,10 @@ from datetime import datetime
 import csv
 from tkinter import filedialog
 
+# Ventana de gestión de encuestas
+# Permite al usuario gestionar encuestas, incluyendo la creación, edición y eliminación
 class VentanaGestionarEncuestas(tk.Toplevel):
+    # Almacenamiento de encuestas a nivel de clase
     encuestas = []  # Lista estática para almacenar encuestas
 
     @classmethod
@@ -14,6 +17,7 @@ class VentanaGestionarEncuestas(tk.Toplevel):
         cls.encuestas.append(encuesta)
 
     def __init__(self, parent):
+        # Configura la interfaz de gestión de encuestas
         super().__init__(parent)
         self.title("Gestión de Encuestas")
         self.geometry("1000x600")

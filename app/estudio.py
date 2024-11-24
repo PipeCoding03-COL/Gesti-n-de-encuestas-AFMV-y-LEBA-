@@ -1,9 +1,7 @@
 from datetime import datetime
-from encuesta import Encuesta
 
+# Clase que representa un estudio completo
 class Estudio:
-    """Clase que representa un estudio completo"""
-    
     def __init__(self, titulo, descripcion, tipo, coordinador):
         self.titulo = titulo
         self.descripcion = descripcion

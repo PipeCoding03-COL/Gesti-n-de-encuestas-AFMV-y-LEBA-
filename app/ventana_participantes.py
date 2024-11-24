@@ -1,21 +1,19 @@
-import csv
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from dialogo_nuevo_participante import DialogoNuevoParticipante
 from gestor_datos import GestorDatos
 
+#Ventana para gestionar participantes
 class VentanaParticipantes(tk.Toplevel):
-    """Ventana para gestionar participantes"""
-    
     def __init__(self, parent):
         super().__init__(parent)
         self.title("Gestión de Participantes")
         self.geometry("800x600")
         self.participantes = []
         self.crear_widgets()
-        
+    
+    # Crea los widgets de la ventana
     def crear_widgets(self):
-        """Crea los widgets de la ventana"""
         # Frame principal
         self.frame = ttk.Frame(self, padding="10")
         self.frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
@@ -49,9 +47,9 @@ class VentanaParticipantes(tk.Toplevel):
         
         ttk.Button(frame_filtros, text="Aplicar Filtros", 
                   command=self.aplicar_filtros).grid(row=0, column=4, padx=5)
-        
+    
+    # Crea la tabla de participantes
     def crear_tabla(self):
-        """Crea la tabla de participantes"""
         # Frame para la tabla
         frame_tabla = ttk.Frame(self.frame)
         frame_tabla.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S))
@@ -79,9 +77,9 @@ class VentanaParticipantes(tk.Toplevel):
         # Ubicar elementos
         self.tabla.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         scroll_y.grid(row=0, column=1, sticky=(tk.N, tk.S))
-        
+    
+    # Importa participantes desde un archivo CSV
     def importar_csv(self):
-        """Importa participantes desde un archivo CSV"""
         archivo = filedialog.askopenfilename(
             filetypes=[("Archivos CSV", "*.csv")]
         )
@@ -89,9 +87,9 @@ class VentanaParticipantes(tk.Toplevel):
             datos = GestorDatos.importar_csv(archivo)
             self.cargar_participantes(datos)
             messagebox.showinfo("Éxito", "Participantes importados correctamente")
-            
+    
+    # Carga los participantes en la tabla
     def cargar_participantes(self, datos):
-        """Carga los participantes en la tabla"""
         # Limpiar tabla actual
         for item in self.tabla.get_children():
             self.tabla.delete(item)
@@ -104,24 +102,24 @@ class VentanaParticipantes(tk.Toplevel):
                 participante.get("edad", ""),
                 participante.get("genero", "")
             ))
-            
+    
+    # Abre diálogo para agregar nuevo participante
     def agregar_participante(self):
-        """Abre diálogo para agregar nuevo participante"""
         dialogo = DialogoNuevoParticipante(self)
         self.wait_window(dialogo)
         if dialogo.participante:
             self.tabla.insert("", tk.END, values=dialogo.participante)
             
+    # Elimina los participantes seleccionados
     def eliminar_seleccionados(self):
-        """Elimina los participantes seleccionados"""
         seleccionados = self.tabla.selection()
         if seleccionados:
             if messagebox.askyesno("Confirmar", "¿Desea eliminar los participantes seleccionados?"):
                 for item in seleccionados:
                     self.tabla.delete(item)
                     
+    # Aplica los filtros seleccionados a la tabla
     def aplicar_filtros(self):
-        """Aplica los filtros seleccionados a la tabla"""
         edad_filtro = self.edad_var.get()
         genero_filtro = self.genero_var.get()
         

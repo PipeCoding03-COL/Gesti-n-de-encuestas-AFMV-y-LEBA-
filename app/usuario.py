@@ -2,7 +2,7 @@ class Usuario:
     def __init__(self, nombre, correo, contraseña, rol):
         self.nombre = nombre
         self.correo = correo
-        self.contraseña = contraseña  # Debe ser encriptada en producción
+        self.contraseña = contraseña
         self.rol = rol
         self.activo = True
 

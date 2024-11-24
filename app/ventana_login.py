@@ -1,14 +1,17 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from ventana_principal import VentanaPrincipal
-from main import Aplicacion
 from gestion_usuarios import GestionUsuarios
 
+# Implementación de la ventana de inicio de sesión
+# Gestiona la autenticación de usuarios y el acceso a la aplicación principal
 class VentanaLogin(tk.Tk):
     def __init__(self):
+        # Configura la ventana de login con campos de autenticación
         super().__init__()
         self.title("Sistema de Encuestas - Login")
         self.geometry("400x300")
+
         self.resizable(False, False)
         
         # Centrar la ventana
@@ -42,12 +45,13 @@ class VentanaLogin(tk.Tk):
         self.bind('<Return>', lambda e: self.login())
 
     def login(self):
-        
+        """
         correo = "andres@project.us"
         password = "Cali"
-        
-        """correo = self.correo_var.get()
-        password = self.password_var.get()"""
+        """
+
+        correo = self.correo_var.get()
+        password = self.password_var.get()
         
         usuario = self.gestion_usuarios.validar_credenciales(correo, password)
         if usuario:

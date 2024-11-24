@@ -1,9 +1,11 @@
 import tkinter as tk
-
 from gestion_usuarios import GestionUsuarios
 
+# Punto de entrada principal de la aplicación
+# Maneja la inicialización de la ventana de login y la configuración básica
 class Aplicacion:
     def __init__(self, root):
+        # Inicializa la ventana principal y las variables core
         self.root = root
         self.root.title("Sistema de Encuestas")
         self.root.geometry("400x300")

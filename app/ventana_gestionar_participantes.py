@@ -3,15 +3,17 @@ from tkinter import ttk
 from app import participante
 from dialogo_nuevo_participante import DialogoNuevoParticipante
 
-
+# Ventana de gestión de participantes
+# Maneja el listado, agregación y gestión de participantes de encuestas
 class VentanaGestionarParticipantes(tk.Toplevel):
+    # Almacenamiento a nivel de clase para la lista de participantes
     participantes_lista = []
     
     def __init__(self, parent):
+        # Inicializa la interfaz de gestión de participantes
         super().__init__(parent)
         self.title("Gestionar Participantes")
         self.geometry("800x600")
-        # Global variable at module level
         PARTICIPANTES = []
 
         class VentanaGestionarParticipantes(tk.Toplevel):

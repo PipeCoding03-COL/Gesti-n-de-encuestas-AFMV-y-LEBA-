@@ -1,5 +1,8 @@
+# Gestión del banco de preguntas
+# Almacena y proporciona acceso a preguntas predefinidas para encuestas
 class BancoPreguntas:
     def __init__(self):
+        # Inicializa el banco de preguntas con categorías y tipos predefinidos
         self.tipos_pregunta = {
             'multiple': {
                 'nombre': 'Opción Múltiple',
@@ -51,66 +54,101 @@ class BancoPreguntas:
             },
             'abierta': {
                 'nombre': 'Respuesta Abierta',
-                'opciones': ['Texto libre']  # Mantenemos la estructura pero solo será informativo
+                # Mantenemos la estructura pero solo será informativo
+                'opciones': ['Texto libre']
             },
         }
 
         self.preguntas = {
             'Satisfacción Laboral': [
-                {'texto': '¿Qué aspectos de tu trabajo actual te resultan más satisfactorios?', 'tipo': 'abierta'},
-                {'texto': '¿Qué cambios sugerirías para mejorar el ambiente laboral?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo describirías la cultura de la empresa?', 'tipo': 'abierta'},
-                {'texto': '¿Qué aspectos de tu trabajo te generan mayor estrés?', 'tipo': 'abierta'},
+                {'texto': '¿Qué aspectos de tu trabajo actual te resultan más satisfactorios?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué cambios sugerirías para mejorar el ambiente laboral?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Cómo describirías la cultura de la empresa?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué aspectos de tu trabajo te generan mayor estrés?',
+                    'tipo': 'abierta'},
                 {'texto': '¿Qué sugerencias tienes para mejorar la comunicación en el equipo?', 'tipo': 'abierta'}
             ],
             'Desarrollo Profesional': [
-                {'texto': '¿Cuáles son tus objetivos profesionales a largo plazo?', 'tipo': 'abierta'},
-                {'texto': '¿Qué habilidades te gustaría desarrollar en tu rol actual?', 'tipo': 'abierta'},
-                {'texto': '¿Qué tipo de capacitación consideras necesaria para tu desarrollo?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo visualizas tu carrera en los próximos 5 años?', 'tipo': 'abierta'},
+                {'texto': '¿Cuáles son tus objetivos profesionales a largo plazo?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué habilidades te gustaría desarrollar en tu rol actual?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué tipo de capacitación consideras necesaria para tu desarrollo?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Cómo visualizas tu carrera en los próximos 5 años?',
+                    'tipo': 'abierta'},
                 {'texto': '¿Qué proyectos te gustaría liderar?', 'tipo': 'abierta'}
             ],
             'Liderazgo': [
-                {'texto': '¿Cómo describirías el estilo de liderazgo de tu supervisor?', 'tipo': 'abierta'},
-                {'texto': '¿Qué características consideras esenciales en un buen líder?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo podría mejorar la comunicación con tu supervisor?', 'tipo': 'abierta'},
-                {'texto': '¿Qué sugerencias tienes para mejorar las reuniones de equipo?', 'tipo': 'abierta'},
+                {'texto': '¿Cómo describirías el estilo de liderazgo de tu supervisor?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué características consideras esenciales en un buen líder?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Cómo podría mejorar la comunicación con tu supervisor?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué sugerencias tienes para mejorar las reuniones de equipo?',
+                    'tipo': 'abierta'},
                 {'texto': '¿Cómo te gustaría que se manejara el reconocimiento en el equipo?', 'tipo': 'abierta'}
             ],
             'Procesos y Eficiencia': [
-                {'texto': '¿Qué procesos consideras que necesitan optimización?', 'tipo': 'abierta'},
-                {'texto': '¿Qué herramientas adicionales necesitas para ser más eficiente?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo podríamos reducir el tiempo en tareas repetitivas?', 'tipo': 'abierta'},
+                {'texto': '¿Qué procesos consideras que necesitan optimización?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué herramientas adicionales necesitas para ser más eficiente?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Cómo podríamos reducir el tiempo en tareas repetitivas?',
+                    'tipo': 'abierta'},
                 {'texto': '¿Qué sugerencias tienes para mejorar la colaboración entre departamentos?', 'tipo': 'abierta'},
-                {'texto': '¿Qué obstáculos encuentras en tu trabajo diario?', 'tipo': 'abierta'}
+                {'texto': '¿Qué obstáculos encuentras en tu trabajo diario?',
+                    'tipo': 'abierta'}
             ],
             'Innovación': [
                 {'texto': '¿Qué ideas innovadoras tienes para mejorar nuestros productos/servicios?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo podríamos fomentar más la creatividad en el equipo?', 'tipo': 'abierta'},
-                {'texto': '¿Qué tendencias del mercado deberíamos estar considerando?', 'tipo': 'abierta'},
-                {'texto': '¿Qué tecnologías nuevas consideras que deberíamos implementar?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo podríamos mejorar nuestra ventaja competitiva?', 'tipo': 'abierta'}
+                {'texto': '¿Cómo podríamos fomentar más la creatividad en el equipo?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué tendencias del mercado deberíamos estar considerando?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué tecnologías nuevas consideras que deberíamos implementar?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Cómo podríamos mejorar nuestra ventaja competitiva?',
+                    'tipo': 'abierta'}
             ],
             'Clima Organizacional': [
-                {'texto': '¿Qué hace única a nuestra cultura organizacional?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo podríamos mejorar el balance vida-trabajo?', 'tipo': 'abierta'},
-                {'texto': '¿Qué actividades sugieres para fortalecer el trabajo en equipo?', 'tipo': 'abierta'},
-                {'texto': '¿Qué aspectos del ambiente laboral te gustaría cambiar?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo podríamos mejorar la integración de nuevos empleados?', 'tipo': 'abierta'}
+                {'texto': '¿Qué hace única a nuestra cultura organizacional?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Cómo podríamos mejorar el balance vida-trabajo?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué actividades sugieres para fortalecer el trabajo en equipo?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué aspectos del ambiente laboral te gustaría cambiar?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Cómo podríamos mejorar la integración de nuevos empleados?',
+                    'tipo': 'abierta'}
             ],
             'Servicio al Cliente': [
-                {'texto': '¿Qué feedback recibes frecuentemente de los clientes?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo podríamos mejorar la experiencia del cliente?', 'tipo': 'abierta'},
-                {'texto': '¿Qué necesidades no cubiertas has identificado en los clientes?', 'tipo': 'abierta'},
-                {'texto': '¿Qué sugerencias tienes para mejorar nuestro servicio post-venta?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo podríamos superar las expectativas de los clientes?', 'tipo': 'abierta'}
+                {'texto': '¿Qué feedback recibes frecuentemente de los clientes?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Cómo podríamos mejorar la experiencia del cliente?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué necesidades no cubiertas has identificado en los clientes?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Qué sugerencias tienes para mejorar nuestro servicio post-venta?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Cómo podríamos superar las expectativas de los clientes?',
+                    'tipo': 'abierta'}
             ],
             'Bienestar': [
-                {'texto': '¿Qué iniciativas de bienestar te gustaría ver en la empresa?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo podríamos mejorar el ambiente físico de trabajo?', 'tipo': 'abierta'},
+                {'texto': '¿Qué iniciativas de bienestar te gustaría ver en la empresa?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Cómo podríamos mejorar el ambiente físico de trabajo?',
+                    'tipo': 'abierta'},
                 {'texto': '¿Qué programas de salud te interesarían?', 'tipo': 'abierta'},
-                {'texto': '¿Qué actividades sugieres para reducir el estrés laboral?', 'tipo': 'abierta'},
-                {'texto': '¿Cómo podríamos promover hábitos saludables en el trabajo?', 'tipo': 'abierta'}
+                {'texto': '¿Qué actividades sugieres para reducir el estrés laboral?',
+                    'tipo': 'abierta'},
+                {'texto': '¿Cómo podríamos promover hábitos saludables en el trabajo?',
+                    'tipo': 'abierta'}
             ]
         }
 
@@ -122,7 +160,7 @@ class BancoPreguntas:
 
     def obtener_categorias(self):
         return list(self.preguntas.keys())
-    
+
     def obtener_preguntas(self, categoria):
         # Retorna la lista de preguntas de la categoría seleccionada
         return self.preguntas.get(categoria, [])
@@ -130,13 +168,13 @@ class BancoPreguntas:
     def agregar_pregunta(self, categoria, pregunta, tipo, opciones_personalizadas=None):
         if categoria not in self.preguntas:
             self.preguntas[categoria] = []
-            
+
         nueva_pregunta = {
             'texto': pregunta,
             'tipo': tipo,
             'opciones_personalizadas': opciones_personalizadas
         }
-        
+
         self.preguntas[categoria].append(nueva_pregunta)
 
     def personalizar_opciones(self, categoria, indice_pregunta, opciones_nuevas):

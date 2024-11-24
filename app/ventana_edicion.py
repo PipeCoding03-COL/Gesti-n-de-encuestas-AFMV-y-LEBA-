@@ -2,12 +2,15 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from ventana_gestionar_encuestas import VentanaGestionarEncuestas
 from banco_preguntas import BancoPreguntas
-from encuesta import Encuesta
 
+# Ventana de edición de encuestas
+# Proporciona interfaz para crear y modificar encuestas
 class VentanaEdicion(tk.Toplevel):
     def __init__(self, parent, encuesta, indice):
+        # Inicializa el editor de encuestas con una encuesta existente o nueva
         super().__init__(parent)
         self.title(f"Editar Encuesta: {encuesta.titulo}")
+
         self.geometry("1000x700")
         
         self.encuesta = encuesta
@@ -214,7 +217,7 @@ class VentanaEdicion(tk.Toplevel):
         self.destroy()
 
     def validar_datos(self):
-        # Validate that all required fields have data
+        # Verificar que todos los campos estén completos
         if (self.nombre_entry.get() and 
             self.descripcion_text.get("1.0", "end-1c") and 
             self.fecha_entry.get()):

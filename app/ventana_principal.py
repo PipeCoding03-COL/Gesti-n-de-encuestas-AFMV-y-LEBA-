@@ -1,12 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from ventana_encuesta import VentanaEncuesta
 from ventana_participantes import VentanaParticipantes
-from ventana_gestionar_encuestas import VentanaGestionarEncuestas
 
+# Ventana principal de la aplicación
+# Proporciona acceso a todas las funcionalidades principales del sistema
 class VentanaPrincipal:
     def __init__(self, usuario, parent):
+        # Inicializa la interfaz principal con el usuario autenticado
         self.parent = parent
         self.usuario = usuario
         self.root = tk.Tk()

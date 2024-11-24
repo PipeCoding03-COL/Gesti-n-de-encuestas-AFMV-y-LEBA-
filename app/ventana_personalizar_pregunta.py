@@ -2,8 +2,11 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from banco_preguntas import BancoPreguntas
 
+# Ventana de personalización de preguntas
+# Permite modificar y adaptar preguntas específicas
 class VentanaPersonalizarPregunta(tk.Toplevel):
     def __init__(self, parent, pregunta):
+        # Inicializa el editor de personalización de preguntas
         super().__init__(parent)
         self.title("Personalizar Pregunta")
         self.geometry("600x700")

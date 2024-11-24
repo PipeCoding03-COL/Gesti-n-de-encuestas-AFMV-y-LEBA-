@@ -8,7 +8,7 @@ from ventana_gestionar_encuestas import VentanaGestionarEncuestas
 class VentanaEncuesta(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
-        self.parent = parent  # Store the parent reference
+        self.parent = parent
         self.title("Nueva Encuesta")
         self.geometry("800x600")        
         self.banco_preguntas = BancoPreguntas()
