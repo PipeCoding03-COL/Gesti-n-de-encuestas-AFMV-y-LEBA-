@@ -45,7 +45,25 @@ pip install -r requirements.txt
 ```
 
 ## Ejecución
+1. Ejecutar el archivo Main.py:
 ```bash
 python app/Main.py #Linux/MacOS
 python app\Main.py #Windows
 ```
+
+2. Inicio de sesión:
+- Coordinadores:
+  + Andrés F. Martínez V.
+    - Correo: andres@project.us
+    - Contraseña: Cali
+  + Leymar E. Buenaventura A.
+    - Correo: leymar@project.us
+    - Contraseña: Tura
+  + Diego Marín
+    - Correo: dmarin@ulibrecali.co
+    - Contraseña: ULibre
+
+- Analistas:
+  + Harold Preciado
+    - Correo: hpreciado@auditorias.co
+    - Contraseña: analista1
