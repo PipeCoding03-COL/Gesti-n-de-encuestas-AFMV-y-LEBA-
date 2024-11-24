@@ -45,13 +45,13 @@ pip install -r requirements.txt
 ```
 
 ## Ejecución
-1. Ejecutar el archivo Main.py:
+Ejecutar el archivo Main.py:
 ```bash
 python app/Main.py #Linux/MacOS
 python app\Main.py #Windows
 ```
 
-2. Inicio de sesión:
+## Inicio de sesión en la app:
 - Coordinadores:
   + Andrés F. Martínez V.
     - Correo: andres@project.us
